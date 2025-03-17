@@ -55,7 +55,7 @@ Website ini di-deploy menggunakan GitHub Pages dan dapat diakses di:
 
 ## Kontak
 
-- Email: nurfalahmiseldi@gmail.com
+- Email: didi29nurfalah@gmail.com
 - GitHub: [@FalhTwntynn](https://github.com/FalhTwntynn)
 - LinkedIn: [Nurfalah Miseldi](https://www.linkedin.com/in/nurfalah-miseldi-1b60b1144/)
 - Instagram: [@nrflh_msld_hsn](https://www.instagram.com/nrflh_msld_hsn/)

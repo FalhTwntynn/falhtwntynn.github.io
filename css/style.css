@@ -12,6 +12,8 @@
     padding: 0;
     box-sizing: border-box;
     cursor: default;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 /* Set cursor pointer untuk elemen yang bisa diklik */
@@ -35,6 +37,9 @@ body {
     color: var(--text-primary);
     position: relative;
     overflow-x: hidden;
+    padding-top: 60px;
+    transition: background-color 0.3s ease;
+    -webkit-font-smoothing: antialiased;
 }
 
 body::before {
@@ -49,7 +54,7 @@ body::before {
         radial-gradient(circle at 80% 80%, rgba(0, 243, 255, 0.03) 0%, transparent 25%),
         radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.01) 0%, transparent 50%);
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
 }
 
 /* Grid Pattern */
@@ -65,7 +70,7 @@ body::after {
         linear-gradient(90deg, rgba(0, 243, 255, 0.02) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
     opacity: 0.3;
 }
 
@@ -74,6 +79,10 @@ section {
     position: relative;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    z-index: 1;
 }
 
 section::before {
@@ -101,6 +110,7 @@ section:hover::before {
 .hero {
     position: relative;
     overflow: hidden;
+    z-index: 1;
 }
 
 .hero::before {
@@ -117,23 +127,207 @@ section:hover::before {
     z-index: -1;
 }
 
-/* Skills Section Background */
+/* Skills Section */
 .skills {
+    padding: 5rem 0;
+    min-height: 100vh;
+    background: transparent;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid rgba(0, 243, 255, 0.1);
     position: relative;
+    z-index: 10;
 }
 
-.skills::before {
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem;
+    position: relative;
+    z-index: 11;
+}
+
+.skill-card {
+    background: rgba(30, 30, 30, 0.8);
+    padding: 1.2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1.5rem;
+    text-align: center;
+    min-height: 300px;
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    position: relative;
+    z-index: 12;
+    transform: translateZ(0);
+}
+
+.skill-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+}
+
+.skill-icon {
+    font-size: 2.5rem;
+    height: 80px;
+    width: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--neon-blue);
+    margin-bottom: 0.5rem;
+    transition: transform 0.2s ease;
+    contain: strict;
+}
+
+.skill-card:hover .skill-icon {
+    transform: scale(1.05);
+}
+
+.skill-title {
+    font-size: 1.25rem;
+    color: var(--neon-blue);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.skill-description {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 0 1rem;
+}
+
+/* Responsive adjustments for skills */
+@media (max-width: 768px) {
+    .skills {
+        z-index: 10;
+    }
+    
+    .skills-grid {
+        z-index: 11;
+    }
+    
+    .skill-card {
+        z-index: 12;
+    }
+
+    .skills-grid {
+        gap: 1rem;
+        padding: 0 1rem;
+        contain: strict;
+    }
+
+    .skill-card {
+        min-height: auto;
+        padding: 1rem;
+        transition: none;
+    }
+
+    .skill-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .skill-icon {
+        height: 60px;
+        width: 60px;
+        font-size: 2rem;
+        transition: none;
+    }
+
+    .skill-card:hover .skill-icon {
+        transform: none;
+    }
+
+    .skill-title {
+        font-size: 1.1rem;
+    }
+
+    .skill-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 0.8rem;
+    }
+
+    .skill-card {
+        min-height: 260px;
+        padding: 1.2rem;
+    }
+
+    .skill-icon {
+        height: 65px;
+        width: 65px;
+        font-size: 1.8rem;
+    }
+
+    .skill-title {
+        font-size: 1rem;
+    }
+
+    .skill-description {
+        font-size: 0.85rem;
+        padding: 0 0.5rem;
+    }
+}
+
+/* Hover effect untuk skill cards */
+.skill-card::before {
+    display: none;
+}
+
+.skill-card::after {
+    display: none;
+}
+
+/* Animation untuk skill cards */
+.skill-card {
+    position: relative;
+    overflow: hidden;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
+}
+
+.skill-card::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(circle at 30% 30%, rgba(0, 243, 255, 0.03) 0%, transparent 40%),
-        radial-gradient(circle at 70% 70%, rgba(0, 243, 255, 0.03) 0%, transparent 40%);
-    pointer-events: none;
-    z-index: -1;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 80%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(0, 243, 255, 0.2),
+        var(--neon-blue),
+        rgba(0, 243, 255, 0.2),
+        transparent
+    );
+    box-shadow: 
+        0 0 8px rgba(0, 243, 255, 0.15),
+        0 0 15px rgba(0, 243, 255, 0.1);
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+.skill-card.in-view::after {
+    transform: translateX(-50%) scaleX(1);
 }
 
 .container {
@@ -146,16 +340,19 @@ section:hover::before {
 /* Header & Navigation */
 header {
     position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    right: 0;
     z-index: 1000;
-    width: auto;
-    padding: 0;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    background: transparent;
 }
 
 nav {
-    background: rgba(10, 10, 10, 0.75);
+    background: rgba(10, 10, 10, 0.3);
     backdrop-filter: blur(10px);
     border-radius: 30px;
     padding: 0.8rem 2rem;
@@ -164,16 +361,19 @@ nav {
         0 4px 20px rgba(0, 0, 0, 0.2),
         0 0 15px rgba(0, 243, 255, 0.2),
         0 0 30px rgba(0, 243, 255, 0.1);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 1200px;
+    width: auto;
+    margin: 0 auto;
 }
 
 nav:hover {
+    background: rgba(10, 10, 10, 0.5);
     border-color: rgba(0, 243, 255, 0.4);
     box-shadow: 
         0 4px 25px rgba(0, 0, 0, 0.3),
         0 0 20px rgba(0, 243, 255, 0.3),
         0 0 40px rgba(0, 243, 255, 0.1);
-    background: rgba(15, 15, 15, 0.85);
 }
 
 .logo {
@@ -198,7 +398,7 @@ nav:hover {
     text-decoration: none;
     font-size: 0.9rem;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, color 0.2s ease;
     padding: 0.6rem 1.2rem;
     border-radius: 20px;
     display: flex;
@@ -241,7 +441,7 @@ nav:hover {
 
 .nav-links a i {
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .nav-links a:hover i {
@@ -253,12 +453,14 @@ nav:hover {
 /* Responsive Navigation */
 @media (max-width: 768px) {
     header {
-        width: 90%;
-        top: 10px;
+        padding: 10px;
+        top: 0;
     }
 
     nav {
         padding: 0.6rem 1rem;
+        width: 100%;
+        max-width: 100%;
     }
 
     .nav-links {
@@ -277,7 +479,7 @@ nav:hover {
 
 @media (max-width: 480px) {
     header {
-        width: 95%;
+        padding: 5px;
     }
 
     nav {
@@ -385,6 +587,8 @@ nav:hover {
     display: block;
     width: 100%;
     border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .section-title {
@@ -561,13 +765,6 @@ nav:hover {
 }
 
 /* Skills Section */
-.skills {
-    padding: 5rem 0;
-    min-height: 100vh;
-    background: rgba(0, 0, 0, 0.2);
-    border-bottom: 1px solid rgba(0, 243, 255, 0.1);
-}
-
 .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -575,6 +772,7 @@ nav:hover {
     max-width: 1200px;
     margin: 3rem auto 0;
     padding: 0 1.5rem;
+    contain: content;
 }
 
 .skill-card {
@@ -590,14 +788,14 @@ nav:hover {
     text-align: center;
     min-height: 300px;
     border: 1px solid rgba(0, 243, 255, 0.1);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s ease;
 }
 
 .skill-card:hover {
-    background: rgba(30, 30, 30, 0.98);
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 243, 255, 0.15);
+    background: rgba(30, 30, 30, 0.98);
     border-color: rgba(0, 243, 255, 0.3);
+    box-shadow: 0 8px 25px rgba(0, 243, 255, 0.15);
 }
 
 .skill-icon {
@@ -614,12 +812,6 @@ nav:hover {
     transition: all 0.3s ease;
 }
 
-.skill-card:hover .skill-icon {
-    transform: scale(1.1);
-    background: rgba(0, 243, 255, 0.15);
-    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-}
-
 .skill-title {
     font-size: 1.25rem;
     color: var(--neon-blue);
@@ -633,7 +825,6 @@ nav:hover {
     font-size: 0.95rem;
     line-height: 1.6;
     padding: 0 1rem;
-    opacity: 0.9;
 }
 
 .experience-timeline {
@@ -1046,7 +1237,9 @@ section.in-view::after {
 /* Tambahkan efek glow pada background saat hover */
 .portfolio-card::before,
 .about-text::before,
-.about-info::before {
+.about-info::before,
+.skill-card::before,
+.experience-item::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1063,7 +1256,9 @@ section.in-view::after {
 
 .portfolio-card:hover::before,
 .about-text:hover::before,
-.about-info:hover::before {
+.about-info:hover::before,
+.skill-card:hover::before,
+.experience-item:hover::before {
     opacity: 1;
 }
 
@@ -1074,6 +1269,8 @@ section.in-view::after {
     display: block;
     width: 100%;
     border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+    position: relative;
+    z-index: 1;
 }
 
 .contact-content {
@@ -1317,9 +1514,8 @@ footer .social-link:hover {
 
     .personal-info {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(3, 1fr);
         gap: 0.8rem;
-        height: auto;
     }
 
     .info-item {
@@ -1499,6 +1695,55 @@ footer .social-link:hover {
 
     .skill-description {
         font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .skills-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0 0.8rem;
+    }
+
+    .skill-card {
+        min-height: 260px;
+        padding: 1.2rem;
+    }
+
+    .skill-icon {
+        height: 65px;
+        width: 65px;
+        font-size: 1.8rem;
+    }
+
+    .skill-title {
+        font-size: 1rem;
+    }
+
+    .skill-description {
+        font-size: 0.85rem;
+        padding: 0 0.5rem;
+    }
+}
+
+/* Hapus semua animasi yang konflik */
+.skill-card, 
+.skill-card.in-view, 
+.skill-card.visible {
+    opacity: 1 !important;
+    transform: none;
+    animation: none;
+}
+
+/* Optimasi performa untuk mobile */
+@media screen and (max-width: 767px) {
+    .skill-card {
+        transform: none !important;
+        transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .skill-card:hover {
+        transform: none !important;
     }
 }
 
@@ -1817,59 +2062,299 @@ footer .social-link:hover {
 /* Fix untuk navbar di perangkat mobile */
 @media screen and (max-width: 767px) {
     header {
-        width: 95%;
-        top: 15px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 8px;
+        background: transparent;
     }
 
     nav {
-        padding: 0.6rem 0.8rem;
+        padding: 0.3rem;
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        border-radius: 12px;
+        background: rgba(10, 10, 10, 0.5);
+        backdrop-filter: blur(10px);
+    }
+
+    nav::-webkit-scrollbar {
+        display: none;
     }
 
     .nav-links {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
+        gap: 0.4rem;
+        padding: 0 0.2rem;
+        flex-wrap: nowrap;
+        width: max-content;
+        min-width: 100%;
+        justify-content: space-around;
     }
 
     .nav-links a {
-        font-size: 0.75rem;
-        padding: 0.4rem;
+        padding: 0.25rem 0.4rem;
+        font-size: 0.7rem;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         gap: 0.3rem;
     }
 
     .nav-links a i {
-        font-size: 0.9rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Fix untuk navbar di perangkat mobile sangat kecil */
+@media screen and (max-width: 380px) {
+    header {
+        padding: 5px;
+    }
+
+    nav {
+        padding: 0.25rem;
+        border-radius: 10px;
+    }
+
+    .nav-links {
+        gap: 0.3rem;
+        padding: 0 0.15rem;
+    }
+
+    .nav-links a {
+        padding: 0.2rem;
+        font-size: 0;
+    }
+
+    .nav-links a i {
+        font-size: 0.8rem;
+        margin: 0;
     }
 
     .nav-links a span {
         display: none;
     }
 
-    .nav-links a:hover {
-        transform: translateY(-1px);
+    body {
+        padding-top: 42px;
     }
 }
 
-/* Optimasi performa untuk perangkat mobile */
-@media screen and (max-width: 767px) {
-    .skill-card,
-    .experience-item,
-    .about-text,
-    .about-info {
-        transform: none !important;
-        transition: all 0.2s ease;
+/* Update media query yang ada untuk mobile */
+@media screen and (max-width: 480px) {
+    header {
+        padding: 6px;
     }
 
-    .skill-card:hover,
-    .experience-item:hover,
-    .about-text:hover,
-    .about-info:hover {
-        transform: none !important;
+    nav {
+        padding: 0.25rem;
+        border-radius: 12px;
     }
 
-    .notification {
-        width: 90%;
-        max-width: 300px;
-        padding: 1rem 1.5rem;
+    .nav-links {
+        gap: 0.3rem;
+    }
+
+    .nav-links a {
+        padding: 0.2rem;
+        font-size: 0;
+    }
+
+    .nav-links a i {
+        font-size: 0.75rem;
+        margin: 0;
+    }
+
+    .nav-links a span {
+        display: none;
+    }
+
+    body {
+        padding-top: 45px;
+    }
+}
+
+/* Smooth Scrolling dan Transisi Global */
+html {
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Animasi untuk background gradient */
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Efek hover yang lebih smooth untuk semua link dan button */
+a, button, .nav-links a, .portfolio-card, .skill-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Efek hover yang lebih smooth untuk cards */
+.portfolio-card, .skill-card, .experience-item {
+    transform: translateY(0);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.portfolio-card:hover, .skill-card:hover, .experience-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 243, 255, 0.15);
+}
+
+/* Efek smooth untuk images */
+img {
+    transition: transform 0.3s ease, filter 0.3s ease;
+    content-visibility: auto;
+    contain: content;
+}
+
+img:hover {
+    transform: scale(1.02);
+}
+
+/* Animasi loading untuk skill bars jika ada */
+.skill-progress {
+    width: 0;
+    transition: width 1s ease-in-out;
+}
+
+/* Animasi untuk icons */
+.nav-links a i, .social-icon i {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.nav-links a:hover i, .social-icon:hover i {
+    transform: scale(1.1);
+    color: var(--neon-blue);
+}
+
+/* Smooth transition untuk text hover */
+.nav-links a, .section-title, .card-title {
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+/* Glow effect pada hover */
+.nav-links a:hover, .section-title:hover, .card-title:hover {
+    color: var(--neon-blue);
+    text-shadow: 0 0 8px rgba(0, 243, 255, 0.5);
+}
+
+/* Animasi untuk cards saat muncul */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.portfolio-card, .skill-card, .experience-item {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Tambahan untuk smooth scroll pada mobile */
+@media (max-width: 767px) {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav-links a, button {
+        touch-action: manipulation;
+    }
+}
+
+/* Update animasi navbar */
+nav {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-links a {
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--neon-blue);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav-links a:hover::after {
+    width: 80%;
+}
+
+/* Smooth transition untuk modal atau popup jika ada */
+.modal, .popup {
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal.active, .popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Optimize animations */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Standarisasi Warna Section */
+.about, .skills, .experience, .contact {
+    background: rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+}
+
+/* Standarisasi Warna Card */
+.about-text, .skill-card, .experience-item, .contact-form {
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(0, 243, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+/* Standarisasi Hover Effect */
+.about-text:hover, .skill-card:hover, .experience-item:hover, .contact-form:hover {
+    background: rgba(40, 40, 40, 0.9);
+    border-color: rgba(0, 243, 255, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2);
+}
+
+/* Mobile Optimization */
+@media (max-width: 768px) {
+    .about-text, .skill-card, .experience-item, .contact-form {
+        background: rgba(30, 30, 30, 0.85);
+    }
+
+    .about-text:hover, .skill-card:hover, .experience-item:hover, .contact-form:hover {
+        background: rgba(35, 35, 35, 0.9);
     }
 }

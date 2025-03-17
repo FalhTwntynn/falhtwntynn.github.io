@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', function() {
     const fadeElements = document.querySelectorAll('.fade-in');
     fadeElements.forEach(element => {
-        element.classList.add('visible');
+            element.classList.add('visible');
     });
 });
 
