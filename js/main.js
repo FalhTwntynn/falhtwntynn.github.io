@@ -10,6 +10,16 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // Tampilkan semua konten saat halaman dimuat
 document.addEventListener('DOMContentLoaded', function() {
+    // Tampilkan social links di hero section dan footer
+    const socialLinks = document.querySelectorAll('.social-links a');
+    socialLinks.forEach((link, index) => {
+        setTimeout(() => {
+            link.style.opacity = '1';
+            link.style.transform = 'translateY(0)';
+        }, index * 200); // Delay 200ms untuk setiap ikon
+    });
+
+    // Tampilkan konten lainnya
     const elements = document.querySelectorAll('.about-content, .about-image, .about-text, .about-info, .info-item, .contact-form, .section-title');
     elements.forEach(element => {
         if (element) {
@@ -107,212 +117,189 @@ if (tagline) {
     window.addEventListener('load', typeWriter);
 }
 
-// Fungsi untuk mengecek apakah elemen visible dalam viewport
-function isElementInViewport(el) {
-    const rect = el.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-// Fungsi untuk menambahkan class fade-in ke elemen yang visible
-function handleScrollAnimation() {
-    const aboutImage = document.querySelector('.about-image');
-    const aboutText = document.querySelector('.about-text');
-    const aboutInfo = document.querySelector('.about-info');
-    const infoItems = document.querySelectorAll('.info-item');
-
-    if (isElementInViewport(aboutImage)) {
-        aboutImage.classList.add('fade-in');
-    }
-
-    if (isElementInViewport(aboutText)) {
-        aboutText.classList.add('fade-in');
-    }
-
-    if (isElementInViewport(aboutInfo)) {
-        aboutInfo.classList.add('fade-in');
-        infoItems.forEach(item => {
-            setTimeout(() => {
-                item.classList.add('fade-in');
-            }, 100);
-        });
-    }
-}
-
-// Event listener untuk scroll
-window.addEventListener('scroll', handleScrollAnimation);
-
-// Trigger animation pada load
-document.addEventListener('DOMContentLoaded', () => {
-    handleScrollAnimation();
-});
-
-// Tambahkan class visible ke semua elemen yang memiliki class fade-in saat halaman dimuat
-document.addEventListener('DOMContentLoaded', function() {
-    const fadeElements = document.querySelectorAll('.fade-in');
-    fadeElements.forEach(element => {
-            element.classList.add('visible');
-    });
-});
-
-// Efek hover untuk info items
-document.querySelectorAll('.info-item').forEach(item => {
-    item.addEventListener('mouseenter', () => {
-        item.style.transform = 'translateX(5px)';
-        item.style.background = 'rgba(50, 50, 50, 0.9)';
-        item.style.boxShadow = '0 0 15px rgba(0, 255, 255, 0.2)';
-    });
-
-    item.addEventListener('mouseleave', () => {
-        item.style.transform = 'none';
-        item.style.background = 'rgba(40, 40, 40, 0.8)';
-        item.style.boxShadow = 'none';
-    });
-});
-
-// Intersection Observer untuk animasi scroll
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-};
-
+// Intersection Observer untuk animasi
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        const element = entry.target;
-        
-        // Hitung opacity berdasarkan intersection ratio
-        const opacity = Math.min(entry.intersectionRatio * 1.5, 1);
-        const translateY = 30 * (1 - entry.intersectionRatio);
-        
-        // Terapkan efek fade dan transform
-        element.style.opacity = opacity;
-        element.style.transform = `translateY(${translateY}px)`;
-        
-        // Tambahkan/hapus kelas untuk efek hover dan garis
-        if (entry.intersectionRatio > 0) {
-            element.classList.add('in-view');
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
             
-            // Jika elemen adalah section, form-group, atau experience-item
-            // tambahkan kelas in-view ke pseudo-element ::after
-            if (element.tagName.toLowerCase() === 'section' ||
-                element.classList.contains('form-group') ||
-                element.classList.contains('experience-item') ||
-                element.classList.contains('hero')) {
-                element.classList.add('in-view');
+            // Khusus untuk social links, tambahkan class in-view ke semua link
+            if (entry.target.classList.contains('social-links')) {
+                const links = entry.target.querySelectorAll('a');
+                links.forEach((link, index) => {
+                    setTimeout(() => {
+                        link.classList.add('in-view');
+                    }, 200 * index);
+                });
             }
-        } else {
-            element.classList.remove('in-view');
         }
     });
-}, observerOptions);
+}, {
+    threshold: 0.2,
+    rootMargin: '50px'
+});
 
-// Fungsi untuk menginisialisasi animasi scroll
+// Fungsi inisialisasi animasi scroll
 function initScrollAnimation() {
-    const elements = document.querySelectorAll(`
-        .section-title,
-        .about-image,
-        .about-text,
-        .about-info,
-        .info-item,
-        .skills-grid,
-        .skill-card,
-        .experience-item,
-        .contact-form,
-        .form-group,
-        section,
-        .hero
-    `);
-
-    elements.forEach(element => {
-        // Set initial state
-        element.style.opacity = 0;
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        
-        // Observe element
-        observer.observe(element);
+    // Observe section titles
+    document.querySelectorAll('.section-title').forEach(title => {
+        observer.observe(title);
+    });
+    
+    // Observe elements dengan class fade-element
+    document.querySelectorAll('.fade-element').forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Observe social links
+    document.querySelectorAll('.social-links').forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Observe skill cards
+    document.querySelectorAll('.skill-card').forEach(card => {
+        observer.observe(card);
+    });
+    
+    // Observe experience items
+    document.querySelectorAll('.experience-item').forEach(item => {
+        observer.observe(item);
+    });
+    
+    // Observe about section elements
+    document.querySelectorAll('.about-text, .about-info, .info-item, .about-image').forEach(el => {
+        observer.observe(el);
+    });
+    
+    // Observe contact form elements
+    document.querySelectorAll('.contact-form, .form-group').forEach(el => {
+        observer.observe(el);
     });
 }
 
-// Inisialisasi animasi setelah DOM dimuat
+// Scroll to Top Button
+const scrollToTopBtn = document.querySelector('.scroll-to-top');
+
+window.addEventListener('scroll', () => {
+    if (window.pageYOffset > 300) {
+        scrollToTopBtn.classList.add('show');
+    } else {
+        scrollToTopBtn.classList.remove('show');
+    }
+});
+
+scrollToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+});
+
+// Handle contact form submission
+const contactForm = document.querySelector('.contact-form');
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const submitBtn = this.querySelector('.submit-btn');
+        const originalBtnText = submitBtn.innerHTML;
+        
+        try {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mengirim...';
+            submitBtn.disabled = true;
+            
+            const response = await fetch('https://formspree.io/f/mvgkgwrq', {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                showNotification('Pesan berhasil terkirim!', 'success');
+                this.reset();
+            } else {
+                showNotification('Gagal mengirim pesan. Silakan coba lagi.', 'error');
+            }
+        } catch (error) {
+            showNotification('Terjadi kesalahan. Silakan coba lagi.', 'error');
+        } finally {
+            submitBtn.innerHTML = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
+}
+
+// Fungsi untuk menampilkan notifikasi
+function showNotification(message, type = 'success') {
+    const notification = document.querySelector('.notification');
+    const messageEl = notification.querySelector('.notification-message');
+    const icon = notification.querySelector('i');
+    
+    // Set pesan dan icon
+    messageEl.textContent = message;
+    icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    
+    // Tampilkan notifikasi
+    notification.classList.add('show');
+    
+    // Sembunyikan notifikasi setelah 3 detik
+    setTimeout(() => {
+        notification.classList.remove('show');
+    }, 3000);
+}
+
+// Observe contact form elements
+const contactObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            
+            if (entry.target.classList.contains('contact-form')) {
+                const formGroups = entry.target.querySelectorAll('.form-group');
+                const submitBtn = entry.target.querySelector('.submit-btn');
+                
+                formGroups.forEach((group, index) => {
+                    setTimeout(() => {
+                        group.classList.add('in-view');
+                    }, 100 * index);
+                });
+                
+                if (submitBtn) {
+                    setTimeout(() => {
+                        submitBtn.classList.add('in-view');
+                    }, 100 * (formGroups.length + 1));
+                }
+            }
+        }
+    });
+}, {
+    threshold: 0.2,
+    rootMargin: '50px'
+});
+
+// Observe contact elements
+document.querySelectorAll('.contact-form, .form-group, .submit-btn').forEach(el => {
+    contactObserver.observe(el);
+});
+
+// Inisialisasi animasi scroll saat dokumen siap
 document.addEventListener('DOMContentLoaded', () => {
     initScrollAnimation();
 });
 
-// Handle Contact Form Submission
-const contactForm = document.getElementById('contact-form');
-const notification = document.getElementById('notification');
-
-contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(contactForm);
-    
-    try {
-        // Kirim data ke Formspree
-        const response = await fetch(contactForm.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        if (response.ok) {
-            // Reset form
-            contactForm.reset();
-            
-            // Tampilkan notifikasi sukses
-            notification.classList.add('show');
-            
-            // Sembunyikan notifikasi setelah 3 detik
-            setTimeout(() => {
-                notification.classList.remove('show');
-            }, 3000);
-        } else {
-            // Jika ada error, ubah pesan notifikasi
-            const notifMessage = notification.querySelector('.notification-message');
-            const notifIcon = notification.querySelector('i');
-            
-            notifMessage.textContent = 'Gagal mengirim pesan. Silakan coba lagi.';
-            notifIcon.className = 'fas fa-exclamation-circle';
-            notifIcon.style.color = '#ff4444';
-            
-            notification.classList.add('show');
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-                // Reset pesan notifikasi ke default
-                notifMessage.textContent = 'Pesan berhasil terkirim!';
-                notifIcon.className = 'fas fa-check-circle';
-                notifIcon.style.color = 'var(--neon-blue)';
-            }, 3000);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        // Tampilkan notifikasi error
-        const notifMessage = notification.querySelector('.notification-message');
-        const notifIcon = notification.querySelector('i');
+// Mouse move effect untuk cards
+document.addEventListener('mousemove', (e) => {
+    const cards = document.querySelectorAll('.skill-card, .experience-item');
+    cards.forEach(card => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        notifMessage.textContent = 'Terjadi kesalahan. Silakan coba lagi.';
-        notifIcon.className = 'fas fa-exclamation-circle';
-        notifIcon.style.color = '#ff4444';
-        
-        notification.classList.add('show');
-        
-        setTimeout(() => {
-            notification.classList.remove('show');
-            // Reset pesan notifikasi ke default
-            notifMessage.textContent = 'Pesan berhasil terkirim!';
-            notifIcon.className = 'fas fa-check-circle';
-            notifIcon.style.color = 'var(--neon-blue)';
-        }, 3000);
-    }
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+    });
 });
 
 // Background hover effect

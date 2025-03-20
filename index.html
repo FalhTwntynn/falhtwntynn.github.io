@@ -54,6 +54,11 @@
             </div>
         </section>
 
+        <!-- Scroll to Top Button -->
+        <button id="scrollToTop" class="scroll-to-top">
+            <i class="fas fa-rocket"></i>
+        </button>
+
         <!-- About Section -->
         <section id="tentang" class="about">
             <h2 class="section-title">Tentang Saya</h2>
@@ -246,34 +251,35 @@
 
         <!-- Contact Section -->
         <section id="kontak" class="contact">
-            <div class="container">
-                <h2 class="section-title">Kontak</h2>
-                <div class="contact-content">
-                    <form id="contact-form" class="contact-form" action="https://formspree.io/f/mvgkgwrq" method="POST">
-                        <div class="form-group">
-                            <input type="text" id="name" name="name" placeholder="Nama" required>
-                        </div>
-                        <div class="form-group">
-                            <input type="email" id="email" name="_replyto" placeholder="Email" required>
-                        </div>
-                        <div class="form-group">
-                            <textarea id="message" name="message" placeholder="Pesan" required></textarea>
-                        </div>
-                        <input type="hidden" name="_subject" value="Pesan Baru dari Portfolio Website">
-                        <button type="submit" class="btn">
-                            <i class="fas fa-paper-plane"></i> Kirim Pesan
-                        </button>
-                    </form>
-                </div>
+            <h2 class="section-title">Kontak</h2>
+            <div class="contact-content">
+                <form id="contact-form" class="contact-form" action="https://formspree.io/f/mvgkgwrq" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Nama Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Email Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="subject" placeholder="Subjek" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" placeholder="Pesan Anda" required></textarea>
+                    </div>
+                    <button type="submit" class="btn submit-btn">
+                        <i class="fas fa-paper-plane"></i>
+                        <span>Kirim Pesan</span>
+                    </button>
+                </form>
             </div>
         </section>
     </main>
 
-    <!-- Notification Popup -->
-    <div class="notification" id="notification">
+    <!-- Notification -->
+    <div class="notification">
         <div class="notification-content">
             <i class="fas fa-check-circle"></i>
-            <span class="notification-message">Pesan berhasil terkirim!</span>
+            <span class="notification-message"></span>
         </div>
     </div>
 
