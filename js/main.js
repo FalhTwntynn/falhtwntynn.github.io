@@ -1,17 +1,4 @@
-// Smooth scrolling untuk navigasi
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
-
-// Tampilkan semua konten saat halaman dimuat
-document.addEventListener('DOMContentLoaded', function() {
-    // Tampilkan social links di hero section dan footer
-    const socialLinks = document.querySelectorAll('.social-links a');
+l-links a');
     socialLinks.forEach((link, index) => {
         setTimeout(() => {
             link.style.opacity = '1';
