@@ -17,11 +17,37 @@
     transition: all 0.3s ease-in-out;
 }
 
-html, body {
-    width: 100%;
-    max-width: 100vw;
+html {
+    height: 100%;
+    overflow-y: hidden;
+}
+
+body {
+    height: 100%;
+    overflow-y: auto;
     overflow-x: hidden;
     position: relative;
+    scrollbar-width: thin;
+    scrollbar-color: var(--neon-blue) var(--dark-bg);
+}
+
+/* Menyembunyikan scrollbar untuk Chrome, Safari dan Opera */
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: var(--dark-bg);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: var(--neon-blue);
+    border-radius: 4px;
+}
+
+/* Memastikan konten section tidak memiliki scrollbar sendiri */
+section {
+    overflow: visible;
 }
 
 /* Set cursor pointer untuk elemen yang bisa diklik */
@@ -87,7 +113,7 @@ section {
     width: 100%;
     max-width: 100vw;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     padding: clamp(3rem, 5vw, 5rem) 1rem;
     background: rgba(0, 0, 0, 0.3);
     min-height: auto;
